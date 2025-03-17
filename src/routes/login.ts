@@ -1,6 +1,5 @@
 import { Router } from "express";
 import * as UserController from "../controllers/userController";
-import { authenticateJWT } from "../middlewares/authJWT";
 
 const router = Router();
 

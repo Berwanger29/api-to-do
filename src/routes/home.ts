@@ -4,7 +4,11 @@ import * as TodoController from "../controllers/todoController"
 
 const router = Router();
 
-router.get('/home', authenticateJWT, TodoController.getAllGroupsController)
-router.post('/newTaskGroup', authenticateJWT, TodoController.createTasckGroupController)
+router.use(authenticateJWT)
+
+router.get('/home/:userId', TodoController.getAllGroupsController)
+router.post('/newTaskGroup', TodoController.createTasckGroupController)
+router.post('/addTasksToGroup/:taskGroupId/:userId', TodoController.createTascksToGroupController)
+router.get('/addTasksToGroup/:userId/:taskGroupId', TodoController.getAllTasksByGroupController)
 
 export default router;

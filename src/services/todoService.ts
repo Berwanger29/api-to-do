@@ -3,9 +3,18 @@ import { prisma } from "../../prisma/client";
 import { newTaskGroupSchema, newTaskGroupSchemaType } from "../schemas/taskGroupShema";
 
 
-export const getAllGroups = async () => {
+export const getAllGroups = async (userId: string) => {
     try {
-        const response = await prisma.taskGroup.findMany({})
+        const response = await prisma.taskGroup.findMany({
+            where: {
+                userId
+            },
+            select: {
+                id: true,
+                title: true,
+                description: true,
+            }
+        })
 
         if (!response) {
             return []
@@ -32,7 +41,12 @@ export const createNewTaskGroup = async (data: newTaskGroupSchemaType) => {
             data: {
                 title: content.data.title,
                 description: content.data.description ? content.data.description : '',
-                userId: content.data.userId
+                userId: content.data.userId,
+                tasks: {
+                    createMany: {
+                        data: []
+                    }
+                }
             }
         })
     } catch (error) {
